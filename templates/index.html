@@ -8,13 +8,27 @@
 ## Main content
                 <h1 class="ui header">API documentation</h1>
 
+                <!--<div class="ui fluid red raised segment">-->
+                    <p> All API calls should be made to
+                        <code>http://api.statik.io/ROUTE</code>
+                        . For example, if the API call's header says <strong>GET /json</strong>,
+                        then you should send a HTTP GET request to
+                        <code>http://api.statik.io/json</code>
+                        . All data - both received and sent - should be in JSON format.
+                    </p>
+                <!--</div>-->
+
+                <div class="ui horizontal icon divider">
+                     <i class="circular heart icon"></i>
+                </div>
+
 % for route in sorted(routes.keys()):
                 <!-- Route segment: ${route | h} -->
 
-                <h2 class="ui header">Route: ${route | h}</h2>
+                <h3 class="ui header">Route: ${route | h}</h3>
 
                 <div class="ui fluid teal raised segment">
-                    <p>${routes[route]}</p>
+                    ${routes[route]}
                 </div>
 
 % endfor
