@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.4"
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+  - pip install -r requirements-test.txt
+# command to run tests
+script:
+  - flake8 .
+notifications:
+  irc:
+    channels:
+      - "irc.esper.net#Statik"
+    template:
+      - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"

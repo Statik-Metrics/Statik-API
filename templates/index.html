@@ -1,0 +1,21 @@
+<%inherit file="base.html"/>
+
+## SEO Stuff
+<%block name="title">Index</%block>
+<%block name="description">Statik API - Public API for Statik Metrics</%block>
+<%block name="keywords">minecraft metrics statik api public java plugin server system stats graphs</%block>
+
+## Main content
+                <h1 class="ui header">API documentation</h1>
+
+% for route in sorted(routes.keys()):
+                <!-- Route segment: ${route | h} -->
+
+
+                <h2 class="ui header">Route: ${route | h}</h2>
+
+                <div class="ui fluid segment">
+                    <p>${routes[route]}</p>
+                </div>
+
+% endfor

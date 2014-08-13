@@ -1,0 +1,8 @@
+mongo:  # This will be used both for data and sessions
+  default: yes  # Set this to `no` if you need to do manual configuration (as below)
+#  host: localhost
+#  port: 27017
+#  db: statik
+#  authentication:
+#    username: user
+#    password: pass
