@@ -4,7 +4,7 @@ Statik API
 This is the API server for Statik. It's designed to be the public-facing
 stats querying server, plus a form of API documentation.
 
-This server is live at [api.statik.io][http://api.statik.io/].
+This server is live at [api.statik.io](http://api.statik.io/).
 
 Requirements
 ------------
