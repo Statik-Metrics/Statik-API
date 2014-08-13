@@ -34,20 +34,21 @@
     <!-- End template/route-defined headers -->
 </head>
 <body>
-    <!-- Top menu -->
-    <div id="mobile-menu" class="ui inverted pointing fluid menu">
-        <a class="item" href="http://statik.io">
-            <i class="home icon"></i>
-            Home
-        </a>
-        <a class="active item" href="/">
-            <i class="setting icon"></i>
-            API
-        </a>
-    </div>
-
-    <!-- Main content -->
     <div class="ui one column page grid">
+
+        <!-- Top menu -->
+        <div id="menu" class="ui teal inverted pointing fluid menu">
+            <a class="item" href="http://statik.io">
+                <i class="home icon"></i>
+                Home
+            </a>
+            <a class="active item" href="/">
+                <i class="setting icon"></i>
+                API
+            </a>
+        </div>
+
+        <!-- Main content -->
         <div class="ui column">
             <div class="ui container">
                 ${self.body()}
@@ -58,11 +59,11 @@
     <!-- Semantic JS stuff -->
     <script>
         // Sidebar triggers
-        $("#sidebar").first().sidebar("attach events", ".menu-toggle");
+        // $("#sidebar").first().sidebar("attach events", ".menu-toggle");
         // Initialize popups
-        $('.popup').popup();
+        // $('.popup').popup();
         // Initialize accordions
-        $(".accordion").accordion();
+        // $(".accordion").accordion();
     </script>
 </body>
 </html>
