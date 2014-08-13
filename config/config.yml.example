@@ -1,2 +1,0 @@
-disabled-routes:  # Routes files that shouldn't be loaded.
-- github

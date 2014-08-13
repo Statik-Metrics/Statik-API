@@ -3,6 +3,7 @@ __author__ = 'Gareth Coles'
 import pymongo
 
 from internal.singleton import Singleton
+from internal.util import log
 
 
 class Db(object, metaclass=Singleton):
@@ -91,7 +92,13 @@ class Db(object, metaclass=Singleton):
         if self.client is not None and self.db is not None:
             raise AlreadySetUpError("MongoDB has already been configured.")
 
-        if self.config.get("default", True):
+        if isinstance(self.config, str):
+            log("Using Mongo URI from environment: {0}".format(self.config))
+
+            self.uri = self.config
+            client = pymongo.MongoClient(self.uri)
+            db = client[self.uri.rsplit("/", 1)[-1]]
+        elif self.config.get("default", True):
             client = pymongo.MongoClient()
             db = client.archivesmc
             self.uri = "mongodb://localhost/statik"
@@ -99,13 +106,13 @@ class Db(object, metaclass=Singleton):
             auth = self.config.get("authentication", None)
 
             if auth is None:
-                uri = "mongodb://{0}:{1}/{2}".format(
+                self.uri = "mongodb://{0}:{1}/{2}".format(
                     self.config["host"],
                     self.config["port"],
                     self.config["db"]
                 )
             else:
-                uri = "mongodb://{0}:{1}@{2}:{3}/{4}".format(
+                self.uri = "mongodb://{0}:{1}@{2}:{3}/{4}".format(
                     auth["username"],
                     auth["password"],
                     self.config["host"],
@@ -113,9 +120,8 @@ class Db(object, metaclass=Singleton):
                     self.config["db"]
                 )
 
-            client = pymongo.MongoClient(uri)
+            client = pymongo.MongoClient(self.uri)
             db = client[self.config["db"]]
-            self.uri = uri
 
         self.client = client
         self.db = db

@@ -21,9 +21,11 @@ class Manager(object, metaclass=Singleton):
     def __init__(self):
         self.app = default_app()
 
-        self.db = yaml.load(open("config/database.yml", "r"))
-        self.mongo_conf = self.db["mongo"]
-        self.main_conf = yaml.load(open("config/config.yml", "r"))
+        self.mongo_conf = os.environ.get("MONGOHQ_URL", None)
+
+        if not self.mongo_conf:
+            self.db = yaml.load(open("config/database.yml", "r"))
+            self.mongo_conf = self.db["mongo"]
 
         self.setup_mongo()
 
@@ -36,13 +38,6 @@ class Manager(object, metaclass=Singleton):
         for _file in files:
             if _file.endswith(".py"):
                 module = _file.rsplit(".", 1)[0]
-                if module in self.main_conf.get("disabled-routes", []):
-                    log(
-                        "Routes module '{0}' is disabled, not loading"
-                        .format(module),
-                        logging.INFO
-                    )
-                    continue
                 try:
                     log(
                         "Loading routes module '{0}'".format(module),
