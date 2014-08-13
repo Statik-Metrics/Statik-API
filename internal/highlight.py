@@ -19,9 +19,7 @@ class Highlight(object, metaclass=Singleton):
                   code: "A string specifying the code to highlight",
                   language: "Optionally, the name of the language"=None):
         if language:
-            return highlight(
-                code, get_lexer_by_name(language), self.formatter
-            )
+            return highlight(code, get_lexer_by_name(language), self.formatter)
 
         return highlight(code, guess_lexer(code), self.formatter)
 
