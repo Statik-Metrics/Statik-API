@@ -1,46 +1,64 @@
 __author__ = 'Gareth Coles'
 
-from bottle import route
+import dicttoxml
+
+from bottle import route, response
+
+from internal.api import ApiManager
 from internal.highlight import Highlight
+from internal.util import log
 
 
 class Routes(object):
 
     def __init__(self, app, manager):
+        self.apis = ApiManager()
         self.app = app
         self.highlight = Highlight()
         self.manager = manager
 
-        route("/json", "GET", self.api_index)
+        route("/json/routes", "GET", self.json_routes)
+        route("/xml/routes", "GET", self.xml_routes)
 
-        self.manager.add_api_route(
-            "GET /test/<test variable>",
-            """A test route. Doesn't actually exist, just here for
-            illustration purposes.
-            """
+        r = self.apis.add_route(
+            "/test/[test variable]",
+            "GET",
+            "A test route",
+            "test"
         )
 
-        self.manager.add_api_route(
-            "GET /json",
-            """<p> The list of routes in JSON format.
-    You could use this for service or capability discovery, for example.
-</p>
+        log("Result: {0}".format(r))
 
-<div class="ui horizontal icon divider">
-    <i class="circular code icon"></i>
-</div>
-
-{0}
-            """.format(self.highlight.highlight("""
-{
-    "routes": {
-        "GET /test/<test variable>": "A test route.",
-        "GET /json": "The list of routes in JSON format. You could use this
-                      for service or capability discovery, for example."
-    }
-}
-            """, "json"))
+        r = self.apis.add_route(
+            "/routes",
+            "GET",
+            "The list of routes in a computer-readable format",
+            "routes"
         )
 
-    def api_index(self):
-        return {"routes": self.manager.api_routes}
+        log("Result: {0}".format(r))
+
+    def json_routes(self):
+        routes = {}
+        for k in self.apis.apis.keys():
+            done = {}
+
+            for kk in self.apis.apis[k].keys():
+                done[kk] = self.apis.apis[k][kk]["text"]
+
+            routes[k] = done
+
+        return {"routes": routes}
+
+    def xml_routes(self):
+        routes = {}
+        for k in self.apis.apis.keys():
+            done = {}
+
+            for kk in self.apis.apis[k].keys():
+                done[kk] = self.apis.apis[k][kk]["text"]
+
+            routes[k] = done
+
+        response.set_header("Content-Type", "text/xml")
+        return dicttoxml.dicttoxml({"routes": routes}, custom_root="data")

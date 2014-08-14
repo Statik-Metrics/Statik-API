@@ -8,27 +8,40 @@
 ## Main content
                 <h1 class="ui header">API documentation</h1>
 
-                <!--<div class="ui fluid red raised segment">-->
-                    <p> All API calls should be made to
-                        <code>http://api.statik.io/ROUTE</code>
-                        . For example, if the API call's header says <strong>GET /json</strong>,
-                        then you should send a HTTP GET request to
-                        <code>http://api.statik.io/json</code>
-                        . All data - both received and sent - should be in JSON format.
-                    </p>
-                <!--</div>-->
+                <p> All API calls should be made to
+                    <code>http://api.statik.io/FORMAT/ROUTE</code>.
+                </p>
+                <p> Replace <code>FORMAT</code> with either <code>xml</code>
+                    or <code>json</code> and the API will return data in that
+                    format. For example, <code>/xml/ROUTE</code> would return
+                    ROUTE's data in XML format. <strong>Note,</strong> My XML
+                    converter isn't working properly right now, looking into
+                    fixing it post-haste.
+                </p>
+                <p> Replace <code>ROUTE</code> with the API route you want to call.
+                    For example, <code>/json/routes</code> would return all routes
+                    in JSON format.
+                </p>
+                <p> If any route requires you to POST or PUT data, it
+                    <strong>must</strong> be in <strong>JSON format</strong>.
+                </p>
 
                 <div class="ui horizontal icon divider">
                      <i class="circular heart icon"></i>
                 </div>
 
-% for route in sorted(routes.keys()):
-                <!-- Route segment: ${route | h} -->
+% for api in sorted(apis.keys()):
+                <!-- Route segment: ${api | h} -->
 
-                <h3 class="ui header">Route: ${route | h}</h3>
+                <h4 class="ui header">${api | h}</h4>
 
-                <div class="ui fluid teal raised segment">
-                    ${routes[route]}
+    % for method in sorted(apis[api].keys()):
+                <h4 class="ui green attached message">HTTP ${method | h}</h4>
+
+                <div class="ui fluid raised attached segment">
+                    ${apis[api][method]["html"]}
                 </div>
+
+    % endfor
 
 % endfor

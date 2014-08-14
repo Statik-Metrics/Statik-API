@@ -6,7 +6,9 @@ import yaml
 
 from bottle import run, default_app, request, hook
 
+from internal.api import ApiManager
 from internal.db import Db
+from internal.highlight import Highlight
 from internal.schemas import schemas
 from internal.singleton import Singleton
 from internal.util import log_request, log
@@ -15,12 +17,14 @@ from internal.util import log_request, log
 class Manager(object, metaclass=Singleton):
 
     db = {}
-    mongo_conf = {}
+    mongo_conf = None
     mongo = None
 
     def __init__(self):
-        self.app = default_app()
+        self.apis = ApiManager()
+        self.highlight = Highlight()
 
+        self.app = default_app()
         self.mongo_conf = os.environ.get("MONGOHQ_URL", None)
 
         if not self.mongo_conf:
@@ -28,9 +32,7 @@ class Manager(object, metaclass=Singleton):
             self.mongo_conf = self.db["mongo"]
 
         self.setup_mongo()
-
         self.routes = {}
-        self.api_routes = {}
 
         files = os.listdir("routes")
         files.remove("__init__.py")
@@ -55,16 +57,6 @@ class Manager(object, metaclass=Singleton):
                     )
 
         log("{0} routes set up.".format(len(self.app.routes)))
-
-    def add_api_route(self,
-                      route: "Human-readable route path",
-                      description: "Description for the index page"):
-
-        if route in self.api_routes:
-            return False
-
-        self.api_routes[route] = description
-        return True
 
     def get_app(self):
         return self.app

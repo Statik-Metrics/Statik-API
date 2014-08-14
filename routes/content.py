@@ -3,10 +3,14 @@ __author__ = 'Gareth Coles'
 from bottle import route
 from bottle import mako_template as template
 
+from internal.api import ApiManager
+from internal.util import log
+
 
 class Routes(object):
 
     def __init__(self, app, manager):
+        self.apis = ApiManager()
         self.app = app
         self.manager = manager
 
@@ -17,5 +21,6 @@ class Routes(object):
 
         return template(
             "templates/index.html",
-            routes=self.manager.api_routes
+            apis=self.apis.apis,
+            log=log
         )

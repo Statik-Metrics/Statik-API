@@ -1,6 +1,8 @@
 bottle
+dicttoxml
+gunicorn
 mako
+markdown2
 pygments
 pymongo
 pyyaml
-gunicorn

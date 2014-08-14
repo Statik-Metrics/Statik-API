@@ -2,6 +2,11 @@ body {
     margin-top: 1em;
 }
 
-.highlight {
-    margin-bottom: -32px !important;
+.codehilite {
+    background-color: #FAF9FA !important;
+}
+
+.code-segment {
+    padding-top: 0.01em !important;
+    padding-bottom: 0.01em !important;
 }

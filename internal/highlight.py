@@ -13,7 +13,7 @@ class Highlight(object, metaclass=Singleton):
     """
 
     def __init__(self):
-        self.formatter = HtmlFormatter(cssclass="highlight", style="borland")
+        self.formatter = HtmlFormatter(cssclass="codehilite", style="borland")
 
     def highlight(self,
                   code: "A string specifying the code to highlight",
@@ -24,4 +24,4 @@ class Highlight(object, metaclass=Singleton):
         return highlight(code, guess_lexer(code), self.formatter)
 
     def get_css(self):
-        return self.formatter.get_style_defs(".highlight")
+        return self.formatter.get_style_defs(".codehilite")

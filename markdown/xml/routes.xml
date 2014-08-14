@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+    <routes type="dict">
+        </test/[test variable] type="dict">
+            <GET type="str">A test route</GET>
+        <//test/[test variable]>
+        </routes type="dict">
+            <GET type="str">The list of routes in a computer-readable format</GET>
+        <//routes>
+    </routes>
+</root>
