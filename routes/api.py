@@ -17,8 +17,8 @@ class Routes(object):
         self.highlight = Highlight()
         self.manager = manager
 
-        route("/json/routes", "GET", self.json_routes)
-        route("/xml/routes", "GET", self.xml_routes)
+        route("/<:re:(?i)json>/routes", "GET", self.json_routes)
+        route("/<:re:(?i)xml>/routes", "GET", self.xml_routes)
 
         r = self.apis.add_route(
             "/test/[test variable]",
