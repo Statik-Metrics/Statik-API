@@ -1,7 +1,6 @@
 {
     "routes": {
         "GET /test/<test variable>": "A test route.",
-        "GET /json": "The list of routes in JSON format. You could use this
-                      for service or capability discovery, for example."
+        "GET /json": "The list of routes in a computer-readable format"
     }
 }
