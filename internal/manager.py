@@ -34,6 +34,7 @@ class Manager(object, metaclass=Singleton):
         self.setup_mongo()
         self.routes = {}
 
+    def setup_routes(self):
         files = os.listdir("routes")
         files.remove("__init__.py")
 
@@ -55,6 +56,7 @@ class Manager(object, metaclass=Singleton):
                         "Error loading routes module '{0}': {1}"
                         .format(module, e)
                     )
+                    raise
 
         log("{0} routes set up.".format(len(self.app.routes)))
 

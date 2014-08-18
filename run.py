@@ -14,6 +14,7 @@ sys.stdout = sys.stderr
 dicttoxml.set_debug(False)
 
 manager = Manager()
+manager.setup_routes()
 
 application = app = manager.get_app()
 
