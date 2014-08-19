@@ -1,5 +1,5 @@
 bottle
-dicttoxml
+dicttoxml>=1.5.6
 gunicorn
 mako
 markdown2
