@@ -34,6 +34,52 @@
                ## </p>
 
                 <div class="ui horizontal icon divider">
+                     <i class="circular warning icon inverted red"></i>
+                </div>
+
+                <h4 class="ui header">Errors</h4>
+
+                <p> If an internal server error occurred, it will be
+                    returned in the response instead of your expected
+                    response. The following are examples of this in both
+                    formats.
+                </p>
+
+                <div class="ui fluid accordion">
+        <div class="title">
+            <i class="dropdown icon"></i>
+            JSON
+        </div>
+        <div class="content">
+            <div class="ui secondary code-segment segment">
+                <div class="codehilite">
+
+<pre><span class="p">{</span>
+    <span class="nt">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Error text.&quot;</span>
+<span class="p">}</span>
+</pre>
+
+                </div>
+
+        </div>
+    </div>
+    <div class="title">
+        <i class="dropdown icon"></i>
+        XML
+    </div>
+    <div class="content">
+        <div class="ui secondary code-segment segment">
+            <div class="codehilite"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;data&gt;</span>
+  <span class="nt">&lt;error</span> <span class="na">type=</span><span class="s">&quot;str&quot;</span><span class="nt">&gt;</span>Error text.<span class="nt">&lt;/error&gt;</span>
+<span class="nt">&lt;/data&gt;</span>
+</pre></div>
+
+        </div>
+    </div>
+</div>
+
+                <div class="ui horizontal icon divider">
                      <i class="circular terminal icon inverted teal"></i>
                 </div>
 

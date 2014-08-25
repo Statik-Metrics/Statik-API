@@ -19,6 +19,13 @@ class Routes(object):
             "routes"
         )
 
+        self.apis.add_route(
+            "/servers",
+            "GET",
+            "The total number of entries in the data collection",
+            "servers"
+        )
+
         # This will register it and ensure the returned types are correct.
         hybrid_route("routes")(self.routes)
         hybrid_route("servers")(self.count_servers)
