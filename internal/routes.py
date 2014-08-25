@@ -88,12 +88,20 @@ def hybrid_route(route_, methods=None):
         def to_json(*args, **kwargs):
             response.set_header("Content-Type", "application/json")
 
-            return json.dumps(callable_(*args, **kwargs))
+            try:
+                return json.dumps(callable_(*args, **kwargs))
+            except Exception as e:
+                return json.dumps({"error": str(e)})
 
         def to_xml(*args, **kwargs):
             response.set_header("Content-Type", "text/xml")
 
-            return dicttoxml(callable_(*args, **kwargs), custom_root="data")
+            try:
+                return dicttoxml(
+                    callable_(*args, **kwargs), custom_root="data"
+                )
+            except Exception as e:
+                return dicttoxml({"error": str(e)}, custom_root="data")
 
         def type_dispatch(*args, **kwargs):
             accepts = request.headers.get("accepts", None)

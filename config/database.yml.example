@@ -6,3 +6,14 @@ mongo:  # This will be used both for data and sessions
 #  authentication:
 #    username: user
 #    password: pass
+
+# Collections aliases
+#
+# These can also be defined as environment variables - for example..
+# $ export STATIK_COLLECTION_DATA=data_collection
+# $ export STATIK_COLLECTION_TIMESTAMPS=timestamps
+#
+
+collections:
+  data: "data_collection"
+  timestamps: "timestamps"

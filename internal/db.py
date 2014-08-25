@@ -1,5 +1,6 @@
 __author__ = 'Gareth Coles'
 
+import os
 import pymongo
 
 from internal.singleton import Singleton
@@ -85,6 +86,8 @@ class Db(object, metaclass=Singleton):
     schemas = {}
     uri = ""
 
+    aliases = {}
+
     def __init__(self, config):
         self.config = config
 
@@ -98,10 +101,30 @@ class Db(object, metaclass=Singleton):
             self.uri = self.config
             client = pymongo.MongoClient(self.uri)
             db = client[self.uri.rsplit("/", 1)[-1]]
+
+            data = os.environ.get("STATIK_COLLECTION_DATA", None)
+            ts = os.environ.get("STATIK_COLLECTION_TIMESTAMPS", None)
+
+            if not data:
+                log("Unable to find STATIK_COLLECTION_DATA environment "
+                    "variable!")
+            else:
+                self.aliases["data"] = data
+
+            if not ts:
+                log("Unable to find STATIK_COLLECTION_TIMESTAMPS environment "
+                    "variable!")
+            else:
+                self.aliases["timestamps"] = ts
         elif self.config.get("default", True):
             client = pymongo.MongoClient()
             db = client.archivesmc
             self.uri = "mongodb://localhost/statik"
+
+            self.aliases = {
+                "data": "data_collection",
+                "timestamps": "timestamps"
+            }
         else:
             auth = self.config.get("authentication", None)
 
@@ -123,13 +146,18 @@ class Db(object, metaclass=Singleton):
             client = pymongo.MongoClient(self.uri)
             db = client[self.config["db"]]
 
+            self.aliases = self.config.get("collections", {})
+
         self.client = client
         self.db = db
 
     def add_schema(self, collection, schema):
         self.schemas[collection] = schema
 
-    def get_collection(self, collection):
+    def get_collection(self, collection, use_alias=True):
+        if use_alias and collection in self.aliases:
+            collection = self.aliases[collection]
+
         return Collection(self.db[collection],
                           self.schemas.get(collection, None))
 
