@@ -173,7 +173,7 @@ class Collection(object):
     def __getattribute__(self, item):
         try:
             # Check whether we defined our own methods
-            return super(Collection, self).__getattribute__(self, item)
+            return super(Collection, self).__getattribute__(item)
         except AttributeError:
             # If not, check if they exist on the collection
             return self.coll.__getattribute__(item)
