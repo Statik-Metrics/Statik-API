@@ -12,16 +12,6 @@ class Routes(object):
         self.manager = manager
         self.db = self.manager.mongo
 
-        # route("/<:re:(?i)json>/routes", "GET", self.json_routes)
-        # route("/<:re:(?i)xml>/routes", "GET", self.xml_routes)
-
-        self.apis.add_route(
-            "/test/[test variable]",
-            "GET",
-            "A test route",
-            "test"
-        )
-
         self.apis.add_route(
             "/routes",
             "GET",

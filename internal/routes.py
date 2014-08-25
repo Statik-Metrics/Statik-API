@@ -6,6 +6,7 @@ from bottle import route, request, response
 from dicttoxml import dicttoxml
 
 from internal.api import ApiManager
+from internal.util import logger
 
 api = ApiManager()
 
@@ -32,7 +33,14 @@ def xml_route(route_, methods=None):
 
         def to_xml(*args, **kwargs):
             response.set_header("Content-Type", "text/xml")
-            return dicttoxml(callable_(*args, **kwargs), custom_root="data")
+
+            try:
+                return dicttoxml(
+                    callable_(*args, **kwargs), custom_root="data"
+                )
+            except Exception as e:
+                logger.exception("Error on route: {0}".format(route_))
+                return dicttoxml({"error": str(e)}, custom_root="data")
 
         route("/<:re:(?i)xml>/{0}".format(route_), methods, to_xml)
 
@@ -61,7 +69,12 @@ def json_route(route_, methods=None):
 
         def to_json(*args, **kwargs):
             response.set_header("Content-Type", "application/json")
-            return json.dumps(callable_(*args, **kwargs))
+
+            try:
+                return json.dumps(callable_(*args, **kwargs))
+            except Exception as e:
+                logger.exception("Error on route: {0}".format(route_))
+                return json.dumps({"error": str(e)})
 
         route("/<:re:(?i)json>/{0}".format(route_), methods, to_json)
 
@@ -91,6 +104,7 @@ def hybrid_route(route_, methods=None):
             try:
                 return json.dumps(callable_(*args, **kwargs))
             except Exception as e:
+                logger.exception("Error on route: {0}".format(route_))
                 return json.dumps({"error": str(e)})
 
         def to_xml(*args, **kwargs):
@@ -101,6 +115,7 @@ def hybrid_route(route_, methods=None):
                     callable_(*args, **kwargs), custom_root="data"
                 )
             except Exception as e:
+                logger.exception("Error on route: {0}".format(route_))
                 return dicttoxml({"error": str(e)}, custom_root="data")
 
         def type_dispatch(*args, **kwargs):
