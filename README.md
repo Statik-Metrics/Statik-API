@@ -1,6 +1,8 @@
 Statik API
 ==========
 
+[![Dependency Status](https://gemnasium.com/Statik-Metrics/Statik-API.svg)](https://gemnasium.com/Statik-Metrics/Statik-API)
+
 This is the API server for Statik. It's designed to be the public-facing
 stats querying server, plus a form of API documentation.
 
